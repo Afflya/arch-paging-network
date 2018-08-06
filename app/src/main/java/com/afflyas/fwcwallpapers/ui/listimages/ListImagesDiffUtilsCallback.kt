@@ -27,4 +27,5 @@ class ListImagesDiffUtilsCallback(private val oldImagesList: List<PixabayImage>,
         return oldImagesList[oldItemPosition] == newImagesList[newItemPosition]
     }
 
+
 }

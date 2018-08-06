@@ -39,10 +39,10 @@ class PixabayImagesRepository @Inject constructor(private val apiService: Pixaba
             Log.d(App.DEV_TAG, javaClass.simpleName + " onResponse")
             val responseBody = response?.body()
 
-            if (responseBody == null || responseBody.resultCount == 0) {
+            if (responseBody == null || responseBody.total == 0) {
                 searchResult?.postValue(RepoResponse.success(null))
             } else {
-                searchResult?.postValue(RepoResponse.success(responseBody.results))
+                searchResult?.postValue(RepoResponse.success(responseBody.items))
             }
         }
 
