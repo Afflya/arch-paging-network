@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="image"
+            type="com.afflyas.fwcwallpapers.repository.PixabayImage" />
+
+        <variable
+            name="callback"
+            type="com.afflyas.fwcwallpapers.ui.common.ItemClickCallback" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+
+        android:onClick="@{() -> callback.onItemClick(image)}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true">
+
+        <ImageView
+            android:id="@+id/posterImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/image_desc"
+            android:cropToPadding="false"
+            android:scaleType="centerCrop"
+            app:imageFromUrl="@{image.getWebformatURL()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_image" />
+
+    </androidx.cardview.widget.CardView>
+</layout>

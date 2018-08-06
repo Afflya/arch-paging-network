@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/listImagesFragment">
+
+    <fragment
+        android:id="@+id/listImagesFragment"
+        android:name="com.afflyas.fwcwallpapers.ui.listimages.ListImagesFragment"
+        android:label="fragment_list_images"
+        tools:layout="@layout/fragment_list_images" >
+        <action
+            android:id="@+id/action_listImagesFragment_to_imageFragment"
+            app:destination="@id/imageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="com.afflyas.fwcwallpapers.ui.image.ImageFragment"
+        android:label="fragment_image"
+        tools:layout="@layout/fragment_image">
+        <argument android:name="image" app:argType="com.afflyas.fwcwallpapers.repository.PixabayImage"/>
+    </fragment>
+</navigation>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">FWC Wallpapers</string>
+
+    <string name="empty_result">Nothing found</string>
+
+    <string name="loading_error">An error occurred while loading</string>
+
+    <string name="retry">Retry</string>
+
+    <string name="image_desc">Wallpaper</string>
+
+    <string name="search">Search</string>
+
+    <string name="set_wallpaper">Set Wallpaper</string>
+
+    <string name="done">Done</string>
+
+</resources>

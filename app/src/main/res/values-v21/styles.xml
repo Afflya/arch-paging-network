@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Replace startup white screen with a logo-->
+    <style name="AppTheme.Launcher" parent="AppTheme.Base">
+        <item name="android:windowBackground">@drawable/background_launcher</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

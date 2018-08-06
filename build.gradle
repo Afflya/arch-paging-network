@@ -1,0 +1,39 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    /**
+     * deps versions
+     */
+    ext{
+        kotlin_version = '1.2.50'           // Kotlin
+        androidx_version = "1.0.0-beta01"   // AndroidX
+        constraintlayout_version = "1.1.2"  // ConstraintLayout
+        lifecycle_version = "2.0.0-beta01"  // [Arch] Lifecycle, LiveData and ViewModel
+        nav_version = "1.0.0-alpha04"       // [Arch] Navigation
+        glide_version = "4.7.1"             // Glide
+        retrofit_version = "2.4.0"          // Retrofit
+        dagger_version = "2.16"             // Dagger
+    }
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha04'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        //Enable pass data between destinations in a type-safe way
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
