@@ -23,7 +23,7 @@ import com.bumptech.glide.request.transition.Transition
 
 /**
  *
- * Fragment for display [PixabayImage] in fullscreen and set the wallpaper
+ * Fragment for display PixabayImage in fullscreen and set the wallpaper
  *
  */
 class ImageFragment : Fragment() {

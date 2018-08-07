@@ -41,16 +41,15 @@ class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback,
                 val image = getItem(position)
                 val itemViewHolder = holder as ItemImageViewHolder
                 itemViewHolder.binding.image = image
-                itemViewHolder.binding.executePendingBindings() //todo возможно можно удалить
+                itemViewHolder.binding.executePendingBindings()
             }
             R.layout.item_loading_state -> {
                 val itemViewHolder = holder as ItemLoadingStateViewHolder
                 itemViewHolder.binding.networkState = networkState
-                itemViewHolder.binding.executePendingBindings() //todo возможно можно удалить
+                itemViewHolder.binding.executePendingBindings()
             }
         }
     }
-
 
     override fun getItemViewType(position: Int): Int {
         return if (hasExtraRow() && position == itemCount - 1) {
@@ -105,12 +104,8 @@ class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback,
                 return oldItem.id == newItem.id
             }
 
-//            override fun getChangePayload(oldItem: PixabayImage, newItem: PixabayImage): Any? {
-//                Log.d(App.DEV_TAG, javaClass.simpleName + " getChangePayload")
-//
-//                return super.getChangePayload(oldItem, newItem)
-//            }
         }
 
     }
+
 }

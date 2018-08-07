@@ -16,17 +16,13 @@ interface PixabayApiService {
 
     /**
      *
-     * Search for images
+     * Search for images using pagination
      *
-     * @param term - string you want to search for
-     * @return [ApiResponse] with list of [PixabayImage]
+     * @param query - string you want to search for
+     * @param page - number of page to load
+     * @return ApiResponse with list of PixabayImage
      *
      */
-    @GET("?key=$API_KEY&per_page=200")
-    fun getImages(@Query("q") term: String): Call<ApiResponse<PixabayImage>>
-
-
-
     @GET("?key=$API_KEY")
     fun getImages(
             @Query("q") query: String,

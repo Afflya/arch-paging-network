@@ -1,14 +1,10 @@
 package com.afflyas.fwcwallpapers.di
 
-import android.util.Log
 import com.afflyas.fwcwallpapers.api.PixabayApiService
-import com.afflyas.fwcwallpapers.core.App
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 /**
@@ -19,9 +15,9 @@ class AppModule {
 
     /**
      *
-     * Provide single retrofit instance of [PixabayApiService]
+     * Provide single retrofit instance of PixabayApiService
      *
-     * @return instance of [PixabayApiService]
+     * @return instance of PixabayApiService
      */
     @Singleton
     @Provides

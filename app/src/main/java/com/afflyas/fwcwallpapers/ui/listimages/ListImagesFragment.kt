@@ -86,6 +86,14 @@ class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
         subscribeSearch()
     }
 
+    /**
+     * create adapter and set it to recycler view
+     *
+     * load default query "Russia World Cup" when fragment created
+     *
+     * subscribe adapter to observe network state and list of items
+     *
+     */
     private fun subscripeAdapter(){
         val adapter = ImagesPagedAdapter(this, this)
 
@@ -107,6 +115,9 @@ class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
 
     }
 
+    /**
+     * subscribe swipe refresh to observe refresh state and call refresh method in the view model
+     */
     private fun subscribeSwipeRefresh(){
         mViewModel.refreshState.observe(this, Observer {
             fragmentBinding.refreshState = it
@@ -117,6 +128,9 @@ class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
         }
     }
 
+    /**
+     * subscribe search view to call load images after text submit
+     */
     private fun subscribeSearch(){
         fragmentBinding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String): Boolean {

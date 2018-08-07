@@ -6,6 +6,12 @@ enum class Status {
     FAILED
 }
 
+/**
+ *
+ * Contains status of request
+ * and error message (when request failed)
+ *
+ */
 @Suppress("DataClassPrivateConstructor")
 data class NetworkState private constructor(
         val status: Status,

@@ -37,6 +37,9 @@ class PageKeyedImageDataSource (
         }
     }
 
+    /**
+     * Load 1st page
+     */
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, PixabayImage>) {
         Log.d(App.DEV_TAG, javaClass.simpleName + " loadInitial")
 
@@ -58,7 +61,6 @@ class PageKeyedImageDataSource (
              * next page exists only when total hits > page size
              */
             val nextPageExists = if(responseBody != null){
-                //responseBody.total > params.requestedLoadSize
                 responseBody.total > PixabayApiService.DEFAULT_PAGE_SIZE
             }else{
                 false
@@ -88,6 +90,9 @@ class PageKeyedImageDataSource (
 
     }
 
+    /**
+     * Load next page
+     */
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PixabayImage>) {
         Log.d(App.DEV_TAG, javaClass.simpleName + " loadAfter")
 
@@ -109,15 +114,13 @@ class PageKeyedImageDataSource (
 
                     val responseBody = response.body()
 
-                    //currentPage
-
                     val nextPage: Int?
 
+                    //set next page number as incremented current page number
+                    //if not all images have been loaded
                     nextPage = if(responseBody == null) {
                         null
                     }else{
-
-                        //Количество загруженных картинок
                         val totalLoaded = currentPage * PixabayApiService.DEFAULT_PAGE_SIZE
 
                         if(responseBody.total > totalLoaded){
@@ -126,7 +129,6 @@ class PageKeyedImageDataSource (
                             null
                         }
                     }
-
 
                     val items = responseBody?.items ?: emptyList()
 
