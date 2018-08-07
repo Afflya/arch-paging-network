@@ -1,4 +1,4 @@
-package com.afflyas.fwcwallpapers.paging.repository
+package com.afflyas.fwcwallpapers.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,6 @@ import androidx.paging.PageKeyedDataSource
 import com.afflyas.fwcwallpapers.api.ApiResponse
 import com.afflyas.fwcwallpapers.api.PixabayApiService
 import com.afflyas.fwcwallpapers.core.App
-import com.afflyas.fwcwallpapers.repository.PixabayImage
 import retrofit2.Call
 import retrofit2.Response
 import java.io.IOException
@@ -50,7 +49,6 @@ class PageKeyedImageDataSource (
 
         // triggered by a refresh, we better execute sync
         try {
-            //todo разобраться, почему execute()
             val response = request.execute()
 
             val responseBody = response?.body()
@@ -82,10 +80,12 @@ class PageKeyedImageDataSource (
             retry = {
                 loadInitial(params, callback)
             }
-            val error = NetworkState.error(ioException.message ?: "unknown error")
+            val error = NetworkState.error(ioException.message
+                    ?: "unknown error")
             networkState.postValue(error)
             initialLoad.postValue(error)
         }
+
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PixabayImage>) {
@@ -99,6 +99,8 @@ class PageKeyedImageDataSource (
                 query = query,
                 page = params.key
         )
+
+        Log.d(App.DEV_TAG, javaClass.simpleName + " page=" + params.key)
 
         request.enqueue(object : retrofit2.Callback<ApiResponse<PixabayImage>>{
             override fun onResponse(call: Call<ApiResponse<PixabayImage>>, response: Response<ApiResponse<PixabayImage>>) {
@@ -145,7 +147,8 @@ class PageKeyedImageDataSource (
                 retry = {
                     loadAfter(params, callback)
                 }
-                networkState.postValue(NetworkState.error(t?.message ?: "unknown error"))
+                networkState.postValue(NetworkState.error(t?.message
+                        ?: "unknown error"))
             }
         })
     }

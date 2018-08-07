@@ -1,4 +1,4 @@
-package com.afflyas.fwcwallpapers.paging.repository
+package com.afflyas.fwcwallpapers.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList

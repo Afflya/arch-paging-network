@@ -4,10 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
-import com.afflyas.fwcwallpapers.paging.repository.PageKeyedImageRepository
-import com.afflyas.fwcwallpapers.repository.PixabayImage
-import com.afflyas.fwcwallpapers.repository.PixabayImagesRepository
-import com.afflyas.fwcwallpapers.repository.RepoResponse
+import com.afflyas.fwcwallpapers.repository.PageKeyedImageRepository
 import javax.inject.Inject
 
 /**
@@ -24,7 +21,7 @@ class ListImagesViewModel @Inject constructor(private val repository: PageKeyedI
         repository.loadImages(it)
     }
 
-    val posts = switchMap(repoResult) { it.pagedList }!!
+    val images = switchMap(repoResult) { it.pagedList }!!
     val networkState = switchMap(repoResult) { it.networkState }!!
     val refreshState = switchMap(repoResult) { it.refreshState }!!
 
@@ -39,7 +36,6 @@ class ListImagesViewModel @Inject constructor(private val repository: PageKeyedI
     }
 
     fun refresh() {
-        //loadImages(query.value)
         repoResult.value?.refresh?.invoke()
     }
 

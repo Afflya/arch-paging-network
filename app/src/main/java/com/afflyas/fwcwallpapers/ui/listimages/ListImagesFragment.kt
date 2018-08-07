@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
 
 import com.afflyas.fwcwallpapers.R
 import com.afflyas.fwcwallpapers.core.MainActivity
@@ -24,7 +23,6 @@ import com.afflyas.fwcwallpapers.ui.common.RetryCallback
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import androidx.recyclerview.widget.GridLayoutManager
-import com.afflyas.fwcwallpapers.paging.ui.ImagesPagedAdapter
 
 
 class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
@@ -41,8 +39,6 @@ class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var mViewModel: ListImagesViewModel
-
-    private var listAdapter: ListImagesAdapter? = null
 
     /**
      * Enable injections
@@ -74,49 +70,35 @@ class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
     }
 
     /**
-     * Navigate to [ImageFragment]
+     * Navigate to ImageFragment
      * after clicking one of the RecyclerView's items
      *
-     * [PixabayImage] object that represents clicked item is passed as an argument
+     * PixabayImage object that represents clicked item is passed as an argument
      */
     override fun onItemClick(pixabayImage: PixabayImage) {
         val action = ListImagesFragmentDirections.actionListImagesFragmentToImageFragment(pixabayImage)
         NavHostFragment.findNavController(this).navigate(action)
     }
 
-    /**
-     *
-     *
-     * PAGING
-     *
-     *
-     */
     private fun subscribeUI() {
-
-
-
-
         subscripeAdapter()
-
         subscribeSwipeRefresh()
-
         subscribeSearch()
-
-
     }
 
     private fun subscripeAdapter(){
-        val adapter = ImagesPagedAdapter(this)
+        val adapter = ImagesPagedAdapter(this, this)
 
-        mViewModel.retry()
-
-        //mViewModel.retry()
+        if(mViewModel.currentQuery() == null){
+            mViewModel.loadImages("Russia World Cup")
+        }
 
         fragmentBinding.recyclerView.layoutManager = GridLayoutManager(mainActivity, 2)
         fragmentBinding.recyclerView.adapter = adapter
 
-        mViewModel.posts.observe(this, Observer<PagedList<PixabayImage>> {
+        mViewModel.images.observe(this, Observer<PagedList<PixabayImage>> {
             adapter.submitList(it)
+            fragmentBinding.hasItems = it.isNotEmpty()
         })
 
         mViewModel.networkState.observe(this, Observer {
@@ -151,7 +133,6 @@ class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
         })
     }
 
-
     /**
      * call to retry search request
      *
@@ -160,76 +141,4 @@ class ListImagesFragment : Fragment(), RetryCallback, ItemClickCallback {
     override fun retry() {
         mViewModel.retry()
     }
-
-
-
-
-
-
-    /**
-     *
-     *
-     *
-     * BEFORE PAGING
-     *
-     *
-     *
-     */
-
-//    /**
-//     * set adapter to recyclerView
-//     *
-//     * subscribe searchView to text submit. Call new search request after it is happen
-//     *
-//     * subscribe observer for search result
-//     * to change data in the view's binding and searchAdapter
-//     *
-//     */
-//    private fun subscribeUI() {
-//
-//        fragmentBinding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-//            override fun onQueryTextSubmit(p0: String): Boolean {
-//                mViewModel.loadImages(p0)
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(p0: String): Boolean { return false }
-//        })
-//
-//        listAdapter = ListImagesAdapter(this)
-//        fragmentBinding.recyclerView.layoutManager = GridLayoutManager(mainActivity, 2)
-//        fragmentBinding.recyclerView.adapter = listAdapter
-//
-//
-//        mViewModel.searchResult.observe(this, Observer {
-//            fragmentBinding.response = it
-//            listAdapter?.setImagesList(it.getData())
-//        })
-//
-//        fragmentBinding.swipeRefresh.setOnRefreshListener {
-//            mViewModel.refresh()
-//        }
-//
-//        if(mViewModel.query.value == null){
-//            mViewModel.query.value = "Russia World Cup"
-//        }
-//
-//        if (mViewModel.searchResult.value == null) {
-//            mViewModel.loadImages(mViewModel.query.value)
-//        }
-//    }
-//
-//
-//
-//    /**
-//     * call to repeat search request
-//     *
-//     * Retry button displayed only when api request was failed or empty
-//     */
-//    override fun retry() {
-//        mViewModel.refresh()
-//    }
-
-
-
 }

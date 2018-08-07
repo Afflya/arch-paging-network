@@ -1,4 +1,4 @@
-package com.afflyas.fwcwallpapers.paging.ui
+package com.afflyas.fwcwallpapers.ui.listimages
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afflyas.fwcwallpapers.R
 import com.afflyas.fwcwallpapers.databinding.ItemImageBinding
 import com.afflyas.fwcwallpapers.databinding.ItemLoadingStateBinding
-import com.afflyas.fwcwallpapers.paging.repository.NetworkState
+import com.afflyas.fwcwallpapers.repository.NetworkState
 import com.afflyas.fwcwallpapers.repository.PixabayImage
 import com.afflyas.fwcwallpapers.ui.common.ItemClickCallback
+import com.afflyas.fwcwallpapers.ui.common.RetryCallback
 
-class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback) : PagedListAdapter<PixabayImage, RecyclerView.ViewHolder>(POST_COMPARATOR) {
+class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback,
+                         private val retryCallback: RetryCallback) : PagedListAdapter<PixabayImage, RecyclerView.ViewHolder>(POST_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -26,6 +28,7 @@ class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback) : P
             R.layout.item_loading_state -> {
                 val binding: ItemLoadingStateBinding = DataBindingUtil
                         .inflate(LayoutInflater.from(parent.context), R.layout.item_loading_state, parent, false)
+                binding.callback = retryCallback
                 ItemLoadingStateViewHolder(binding)
             }
             else -> throw IllegalArgumentException("unknown view type $viewType")
@@ -33,9 +36,9 @@ class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback) : P
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val image = getItem(position)
         when (getItemViewType(position)) {
             R.layout.item_image -> {
+                val image = getItem(position)
                 val itemViewHolder = holder as ItemImageViewHolder
                 itemViewHolder.binding.image = image
                 itemViewHolder.binding.executePendingBindings() //todo возможно можно удалить
@@ -91,6 +94,7 @@ class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback) : P
          */
         class ItemLoadingStateViewHolder(val binding: ItemLoadingStateBinding) : RecyclerView.ViewHolder(binding.root)
 
+
         val POST_COMPARATOR = object : DiffUtil.ItemCallback<PixabayImage>(){
 
             override fun areItemsTheSame(oldItem: PixabayImage, newItem: PixabayImage): Boolean {
@@ -100,6 +104,12 @@ class ImagesPagedAdapter(private val onItemClickCallback: ItemClickCallback) : P
             override fun areContentsTheSame(oldItem: PixabayImage, newItem: PixabayImage): Boolean {
                 return oldItem.id == newItem.id
             }
+
+//            override fun getChangePayload(oldItem: PixabayImage, newItem: PixabayImage): Any? {
+//                Log.d(App.DEV_TAG, javaClass.simpleName + " getChangePayload")
+//
+//                return super.getChangePayload(oldItem, newItem)
+//            }
         }
 
     }

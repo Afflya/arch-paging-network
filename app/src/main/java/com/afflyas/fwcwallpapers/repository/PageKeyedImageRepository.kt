@@ -1,12 +1,9 @@
-package com.afflyas.fwcwallpapers.paging.repository
+package com.afflyas.fwcwallpapers.repository
 
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import com.afflyas.fwcwallpapers.api.PixabayApiService
 import com.afflyas.fwcwallpapers.core.AppExecutors
-import com.afflyas.fwcwallpapers.paging.repository.ImageDataSourceFactory
-import com.afflyas.fwcwallpapers.paging.repository.Listing
-import com.afflyas.fwcwallpapers.repository.PixabayImage
 import javax.inject.Inject
 
 /**

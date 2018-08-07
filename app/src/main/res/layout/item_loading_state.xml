@@ -5,26 +5,54 @@
 
     <data>
 
-        <import type="com.afflyas.fwcwallpapers.paging.repository.Status"/>
+        <import type="com.afflyas.fwcwallpapers.repository.Status"/>
 
         <variable
             name="networkState"
-            type="com.afflyas.fwcwallpapers.paging.repository.NetworkState" />
+            type="com.afflyas.fwcwallpapers.repository.NetworkState" />
+
+        <variable
+            name="callback"
+            type="com.afflyas.fwcwallpapers.ui.common.RetryCallback" />
 
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="250dp"
+        app:cardUseCompatPadding="true">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:visibleGone="@{networkState.status == Status.RUNNING}"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:visibleGone="@{networkState.status == Status.RUNNING}"/>
+
+            <TextView
+                android:id="@+id/errorMessageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{networkState.status == Status.FAILED}"
+                android:layout_gravity="center"
+                android:text="@{networkState.msg}"
+                tools:text="@string/loading_error"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{networkState.status == Status.FAILED}"
+                android:layout_gravity="center"
+                android:text="@string/retry"
+                android:onClick="@{() -> callback.retry()}"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </layout>
